@@ -1,3 +1,5 @@
+// Pyramid
+
 const character = "#";
 const count = 8;
 const rows = [];
@@ -13,6 +15,9 @@ function padRow(rowNumber, rowCount) {
   );
 }
 
+// TODO: use a different type of loop
+// push hashes into rows
+
 for (let i = 0; i < count; i = i + 1) {
   rows.push(padRow(i + 1, count));
 }
@@ -21,4 +26,19 @@ for (const row of rows) {
   result = result + "\n" + row;
 }
 
+/*
+
+rows's result: 
+ Array(8) [
+   '       #       ', 
+   '      ###      ', 
+   '     #####     ', 
+   '    #######    ', 
+   '   #########   ',
+   '  ###########  ', 
+   ' ############# ', 
+   '###############'
+ ]
+
+*/
 console.log(result);
