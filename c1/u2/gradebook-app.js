@@ -40,3 +40,15 @@ function getGrade(score) {
 console.log(getGrade(96));
 console.log(getGrade(82));
 console.log(getGrade(56));
+
+// S3: Check if a student has a passing grade
+// https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/review-js-fundamentals-by-building-a-gradebook-app/step-3
+// 💡 Use the getGrade function to get the student's grade. Then check if the grade is passing or not.
+
+function hasPassingGrade(score) {
+  return getGrade(score) !== "F";
+}
+
+console.log(hasPassingGrade(100));
+console.log(hasPassingGrade(53));
+console.log(hasPassingGrade(87));
