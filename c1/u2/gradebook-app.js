@@ -52,3 +52,22 @@ function hasPassingGrade(score) {
 console.log(hasPassingGrade(100));
 console.log(hasPassingGrade(53));
 console.log(hasPassingGrade(87));
+
+// S4: Message the student with the results
+// https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/review-js-fundamentals-by-building-a-gradebook-app/step-4
+// 💡  Use the getAverage function to get the class average.
+// 💡  Use the getGrade function to get the student's grade.
+// 💡  Use string concatenation (+) to build the message.
+// 💡  Be careful with the punctuation and spaces in the message.
+
+function studentMsg(totalScores, studentScore) {
+  return `Class average: ${getAverage(totalScores)}. Your grade: ${getGrade(
+    studentScore
+  )}. ${
+    getGrade(studentScore) !== "F"
+      ? "You passed the course."
+      : "You failed the course."
+  }`;
+}
+
+console.log(studentMsg([92, 88, 12, 77, 57, 100, 67, 38, 97, 89], 37));
