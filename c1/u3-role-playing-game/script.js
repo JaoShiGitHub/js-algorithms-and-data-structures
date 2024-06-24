@@ -112,13 +112,13 @@ function buyHealth() {
   if (gold >= 10) {
     gold -= 10;
     health += 10;
-
     goldText.innerText = gold;
     healthText.innerText = health;
   } else {
     text.innerText = "You do not have enough gold to buy health.";
   }
 }
+
 function buyWeapon() {
   if (currentWeaponIndex < weapons.length - 1) {
     if (gold >= 30) {
@@ -171,23 +171,27 @@ function goFight() {
   monsterHealth = monsters[fighting].health;
   monsterStats.style.display = "block";
   monsterName.innerText = monsters[fighting].name;
-  monsterHealthText.innerText = monsterHealthText;
+  monsterHealthText.innerText = monsterHealth;
 }
 
 function attack() {
-  text.innerText = `The ${monsters[fighting].name} attacks.`;
-  text.innerText += ` You attack it with your ${weapons[currentWeaponIndex].name}.`;
+  text.innerText = "The " + monsters[fighting].name + " attacks.";
+  text.innerText +=
+    " You attack it with your " + weapons[currentWeaponIndex].name + ".";
   health -= monsters[fighting].level;
   monsterHealth -=
     weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;
   healthText.innerText = health;
   monsterHealthText.innerText = monsterHealth;
-
   if (health <= 0) {
     lose();
   } else if (monsterHealth <= 0) {
     defeatMonster();
   }
+}
+
+function dodge() {
+  text.innerText = `You dodge the attack from the ${monsters[fighting].name}.`;
 }
 
 function defeatMonster() {
@@ -197,8 +201,5 @@ function defeatMonster() {
   xpText.innerText = xp;
   update(locations[4]);
 }
-function lose() {}
 
-function dodge() {
-  text.innerText = `You dodge the attack from the ${monsters[fighting].name}.`;
-}
+function lose() {}
