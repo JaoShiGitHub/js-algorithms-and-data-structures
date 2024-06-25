@@ -193,8 +193,12 @@ function attack() {
     " You attack it with your " + weapons[currentWeaponIndex].name + ".";
   // health -= monsters[fighting].level;
   health -= getMonsterAttackValue(monsters[fighting].level);
-  monsterHealth -=
-    weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;
+  if (isMonsterHit()) {
+    monsterHealth -=
+      weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;
+  } else {
+    text.innerText += " You miss.";
+  }
   healthText.innerText = health;
   monsterHealthText.innerText = monsterHealth;
   if (health <= 0) {
@@ -210,7 +214,14 @@ function attack() {
   }
 }
 
-function getMonsterAttackValue(level) {}
+function getMonsterAttackValue(level) {
+  const hit = level * 5 - Math.floor(Math.random() * xp);
+  return hit > 0 ? hit : 0;
+}
+
+function isMonsterHit() {
+  return Math.random() > 0.2 || health < 20;
+}
 
 function dodge() {
   text.innerText = `You dodge the attack from the ${monsters[fighting].name}.`;
