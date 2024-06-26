@@ -39,8 +39,6 @@ function getRandomIndex() {
   return randomIndex;
 }
 
-// getRandomIndex();
-
 // 4. TypeError: Fix by updating the document.queryselector method to the correct method name
 // 5. Null: Fix the document.querySelector("bg-hex-code") line so that it correctly selects the element
 // const body = document.queryselector("body");
@@ -52,3 +50,25 @@ const body = document.querySelector("body");
 const bgHexCodeSpanElement = document.querySelector("#bg-hex-code");
 
 console.log(bgHexCodeSpanElement);
+
+
+function changeBackgroundColor() {
+  // 6. The background color is not changing and the text shows undefined because the color variable is not being set correctly.
+  // const color = darkColorsArr[getRandomIndex];
+  // - Fixed -
+  const color = darkColorsArr[getRandomIndex()];
+
+  bgHexCodeSpanElement.innerText = color;
+  body.style.backgroundColor = color;
+}
+
+// 7. The button element is null. Fix that button element to correct id name.
+// const btn = document.querySelector("#click-btn");
+// - Fixed -
+const btn = document.querySelector("#btn");
+console.log(btn);
+
+// 8. The background color doesn't change when it is clicked. The onclick property should be assigned a function reference.
+// btn.onclick = changeBackgroundColor();
+// - Fixed -
+btn.onclick = changeBackgroundColor;
