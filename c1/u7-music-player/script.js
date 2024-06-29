@@ -95,12 +95,35 @@ const playSong = (id) => {
   } else {
     audio.currentTime = userData?.songCurrentTime;
   }
-
   userData.currentSong = song;
+  playButton.classList.add("playing");
+  
+  audio.play();
 };
 
-playButton.classList.add("playing");
-audio.play();
+const pauseSong = () => {
+  userData.songCurrentTime = audio.currentTime;
+  
+  playButton.classList.remove("playing");
+  audio.pause();
+};
+
+const playNextSong = () => {
+  if (userData?.currentSong === null) {
+    playSong(userData?.songs[0].id);
+  } else {
+    const currentSongIndex = getCurrentSongIndex();
+    const nextSong = userData?.songs[currentSongIndex + 1]
+    playSong(nextSong.id)
+}
+
+const playPreviousSong = () => {
+  if (userData?.currentSong === null) {
+    return 
+  } else {
+    const currentSongIndex = getCurrentSongIndex()
+  }
+};
 
 const renderSongs = (array) => {
 const songsHTML = array.map((song) => {
@@ -117,6 +140,10 @@ const songsHTML = array.map((song) => {
 playlistSongs.innerHTML = songsHTML;
 };
 
+const getCurrentSongIndex = () => {
+  return userData?.songs.indexOf(userData?.currentSong);
+};
+
 playButton.addEventListener("click", () => {
   if(!userData?.currentSong) {
     // The first song in the playlist is played first
@@ -126,6 +153,10 @@ playButton.addEventListener("click", () => {
     playSong(userData?.currentSong.id)
   }
 })
+
+pauseButton.addEventListener("click", pauseSong);
+
+nextButton.addEventListener("click", playNextSong);
 
 const sortSongs = () => {
   userData?.songs.sort((a,b) => {
