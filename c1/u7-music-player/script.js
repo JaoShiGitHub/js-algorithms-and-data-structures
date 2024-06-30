@@ -99,6 +99,8 @@ const playSong = (id) => {
   playButton.classList.add("playing");
 
   highlightCurrentSong()
+  setPlayerDisplay()
+  setPlayButtonAccessibleText()
   audio.play();
 };
 
@@ -106,7 +108,6 @@ const pauseSong = () => {
   userData.songCurrentTime = audio.currentTime;
   
   playButton.classList.remove("playing");
-  setPlayerDisplay()
   audio.pause();
 };
 
@@ -129,16 +130,28 @@ const playPreviousSong = () => {
 };
 };
 
-  const setPlayerDisplay = () => {
+// plays songs in a random order
+const shuffle = () => {
+  userData?.songs.sort(() => Math.random() - 0.5);
+  userData.currentSong = null;
+  userData.songCurrentTime = 0;
+// You should not use optional chaining for this step because you are explicitly setting the currentSong and songCurrentTime properties to be null and 0 respectively
+  renderSongs(userData?.songs);
+  pauseSong();
+  setPlayerDisplay()
+  setPlayButtonAccessibleText()
+};
+
+// Display the current song title and artist in the player display
+const setPlayerDisplay = () => {
   const playingSong = document.getElementById("player-song-title");
   const songArtist = document.getElementById("player-song-artist");
   const currentTitle = userData?.currentSong?.title;
   const currentArtist = userData?.currentSong?.artist;
+
+  playingSong.textContent = currentTitle ? currentTitle : "";
+  songArtist.textContent = currentArtist ? currentArtist : "";
 };
-
-// Display the current song title and artist in the player display
-const setPlayerDisplay = () => {}
-
   
 // Highlight the current song
 const highlightCurrentSong = () => {
@@ -169,7 +182,10 @@ const songsHTML = array.map((song) => {
 playlistSongs.innerHTML = songsHTML;
 };
 
-const setPlayButtonAccessibleText = () => {};
+const setPlayButtonAccessibleText = () => {
+  const song = userData?.currentSong || userData?.songs[0];
+  playButton.setAttribute("aria-label", song?.title ? `Play ${song.title}` : "Play");
+};
 
 const getCurrentSongIndex = () => {
   return userData?.songs.indexOf(userData?.currentSong);
@@ -188,6 +204,7 @@ playButton.addEventListener("click", () => {
 pauseButton.addEventListener("click", pauseSong);
 nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
+shuffleButton.addEventListener("click", shuffle)
 
 const sortSongs = () => {
   userData?.songs.sort((a,b) => {
