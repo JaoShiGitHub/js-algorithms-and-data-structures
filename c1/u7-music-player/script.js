@@ -127,6 +127,7 @@ const playPreviousSong = () => {
     playSong(previousSong.id)
   }
 };
+};
 
   const setPlayerDisplay = () => {
   const playingSong = document.getElementById("player-song-title");
