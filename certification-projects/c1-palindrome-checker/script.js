@@ -8,8 +8,8 @@ const checkPalindrome = () => {
   let check = text.replace(regex, "").toLowerCase();
   let reverseText = check.split("").reverse().join("");
 
-  const isPalindrome = `<p><span class="check-input">${text}</span> is palindrome</p>`;
-  const notPalindrome = `<p><span class="check-input">${text}</span> isn't palindrome</p>`;
+  const isPalindrome = `<p><span class="check-input">${text}</span> is a palindrome</p>`;
+  const notPalindrome = `<p><span class="check-input">${text}</span> is not a palindrome</p>`;
 
   if (result.hasChildNodes()) {
     result.removeChild(result.childNodes[0]);
@@ -21,7 +21,7 @@ const checkPalindrome = () => {
       : (result.innerHTML += notPalindrome);
     input.value = "";
   } else {
-    alert("Please input a value 🥺");
+    alert("Please input a value");
   }
 };
 
