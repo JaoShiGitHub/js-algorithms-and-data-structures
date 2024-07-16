@@ -18,11 +18,15 @@ const getMedian = (array) => {
 
 const getMode = (array) => {
   const counts = {};
-  array.forEach(el => {
-    counts[el] ? counts[el] +=1 : counts[el] = 1
+  array.forEach((el) => {
+    counts[el] = (counts[el] || 0) + 1;
   })
-  return counts;
-};
+  if (new Set(Object.values(counts)).size === 1) {
+    return null;
+  }
+  const highest = Object.keys(counts).sort((a , b) => counts[b] - counts[a])[0];
+   const mode = Object.keys(counts).filter(el => counts[el] === counts[highest]);
+}
 
 // -- Test Code --
 // const testArr1 = [1, 2, 3, 4, 5];
