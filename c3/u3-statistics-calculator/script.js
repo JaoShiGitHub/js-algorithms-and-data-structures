@@ -14,6 +14,12 @@ console.log(isEven);
 const oddListMedian = testArr1[Math.floor(testArr1.length / 2)];
 console.log(oddListMedian);
 
+const firstMiddleNumber = testArr2[testArr2.length / 2];
+const secondMiddleNumber = testArr2[(testArr2.length / 2) - 1];
+
+const evenListMedian = getMean([firstMiddleNumber, secondMiddleNumber]);
+console.log(evenListMedian);
+
 const getMedian = (array) => {
   const sorted = array.sort((a,b) =>  a - b);
 }
