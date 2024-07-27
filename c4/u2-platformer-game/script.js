@@ -33,5 +33,44 @@ draw() {
   ctx.fillStyle = "#99c9ff";  // player colour
   ctx.fillRect(this.position.x, this.position.y, this.width, this.height); // player's shape
  }
+  
+// updating the player's position and velocity as it moves throughout the game
+  update() {
+    this.draw();
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    
+    // protect the player to not move past the height of the canvas.
+    if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+      if (this.position.y < 0) {
+        this.position.y = 0;
+        this.velocity.y = gravity;
+      }
+      this.velocity.y += gravity;
+    } else {
+      this.velocity.y = 0;
+    }
+    
+    if (this.position.x < this.width) {
+       this.position.x = this.width;
+    }
 
+    //  Check if the player's x position has exceeded the right edge of the canvas
+    //  If it has, set the player's x position to the maximum value so the player does not accidentally go off screen to the right
+    if (this.position.x >= canvas.width - this.width * 2) {
+      this.position.x = canvas.width - this.width * 2;
+    }
+  }
 }
+
+const player = new Player()
+
+const animate = () => {};
+
+const startGame = () => {
+  canvas.style.display = "block";
+  startScreen.style.display = "none";
+  player.draw();
+}
+
+startBtn.addEventListener("click", startGame);
