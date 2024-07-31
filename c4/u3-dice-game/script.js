@@ -20,8 +20,12 @@ let rolls = 0;
 
 rulesBtn.addEventListener("click", () => {
   if (!isModalShowing) {
-    rulesContainer.style.display = "block";
     isModalShowing = true;
+    rulesContainer.style.display = "block";
     rulesBtn.textContent = "Hide rules";
+  } else {
+    isModalShowing = false;
+    rulesContainer.style.display = "none";
+    rulesBtn.textContent = "Show rules";
   }
 })
