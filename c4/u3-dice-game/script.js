@@ -30,13 +30,18 @@ const rollDice = () => {
   });
 };
 
-rollDiceBtn.addEventListener("click", () => { 
-  if (rolls < 3) {
-     rollDice(); 
-     rolls++; 
-     currentRoundRolls.textContent = rolls;
+const updateStats = () => {
+  currentRoundRolls.textContent = rolls;
+  currentRound.textContent = round;
+};
+
+rollDiceBtn.addEventListener("click", () => {
+  if (rolls === 3) {
+    alert("You have made three rolls this round. Please select a score.");
   } else {
-    alert("Select a score")
+    rolls++;
+    rollDice();
+    updateStats();
   }
 });
 
