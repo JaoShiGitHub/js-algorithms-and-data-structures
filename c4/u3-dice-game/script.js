@@ -5,7 +5,6 @@ const currentRound = document.getElementById("current-round");
 const currentRoundRolls = document.getElementById("current-round-rolls");
 const totalScore = document.getElementById("total-score");
 const scoreHistory = document.getElementById("score-history");
-
 const rollDiceBtn = document.getElementById("roll-dice-btn");
 const keepScoreBtn = document.getElementById("keep-score-btn");
 const rulesContainer = document.querySelector(".rules-container");
@@ -18,15 +17,27 @@ let total = 0;
 let round = 1; 
 let rolls = 0; 
 
-rollDiceBtn.addEventListener("click", () => {
+const rollDice = () => {
   diceValuesArr = [];
-  for (let i = 0; i < 5; i++) {
-    diceValuesArr.push(Math.floor(Math.random() * 6) + 1);
-  }
 
-  listOfAllDice.forEach((die, index) => {
-    die.textContent = diceValuesArr[index];
+  for (let i = 0; i < 5; i++) {
+    const randomDice = Math.floor(Math.random() * 6) + 1;
+    diceValuesArr.push(randomDice);
+  };
+
+  listOfAllDice.forEach((dice, index) => {
+    dice.textContent = diceValuesArr[index];
   });
+};
+
+rollDiceBtn.addEventListener("click", () => { 
+  if (rolls < 3) {
+     rollDice(); 
+     rolls++; 
+     currentRoundRolls.textContent = rolls;
+  } else {
+    alert("Select a score")
+  }
 });
 
 rulesBtn.addEventListener("click", () => {
