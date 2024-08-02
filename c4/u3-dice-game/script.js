@@ -41,20 +41,39 @@ const updateRadioOption = (index, score) => {
   scoreSpans[index].textContent = `, score = ${score}`;
 };
 
-const getHighestDuplicates = (numArr) => {
+const getHighestDuplicates = (arr) => {
   const counts = {};
-  numArr.forEach(value => counts[value] = (counts[value] || 0) + 1);
+  for (const num of arr) {
+    if (counts[num]) {
+     counts[num]++;
+  } else {
+    counts[num] = 1;
+  }
+}
 
-  const sumDice = numArr.reduce((a, b) => a + b, 0);
+  let highestCount = 0;
 
-
-  for (const count in counts) {
-    if (counts[count] > 4) {
-       updateRadioOption(count , sumDice)
-    } else if (counts[count] > 3) {
-      updateRadioOption(count , sumDice)
+  for (const num of arr) {
+    const count = counts[num];
+    if (count >= 3 && count > highestCount) {
+      highestCount = count;
+    } 
+    
+     if (count >= 4 && count > highestCount) {
+       highestCount = count;
     }
-  }  
+  }
+  
+  const sumOfAllDice = arr.reduce((a, b) => a + b, 0);
+
+  if (highestCount >= 4) {
+    updateRadioOption(1, sumOfAllDice);
+  } else if (highestCount >= 3) {
+    updateRadioOption(0, sumOfAllDice);
+  } else {
+    updateRadioOption(5, 0);
+  }
+  
 };
 
 rollDiceBtn.addEventListener("click", () => {
@@ -64,8 +83,7 @@ rollDiceBtn.addEventListener("click", () => {
     rolls++;
     rollDice();
     updateStats();
-    getHighestDuplicates(diceValuesArr)
-    
+    getHighestDuplicates(diceValuesArr);
   }
 });
 
