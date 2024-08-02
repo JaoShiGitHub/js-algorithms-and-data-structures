@@ -14,8 +14,8 @@ let diceValuesArr = [];
 let isModalShowing = false;
 let score = 0;
 let total = 0;
-let round = 1;
-let rolls = 0;
+let round = 1; 
+let rolls = 0; 
 
 const rollDice = () => {
   diceValuesArr = [];
@@ -43,13 +43,14 @@ const updateRadioOption = (index, score) => {
 
 const getHighestDuplicates = (arr) => {
   const counts = {};
+
   for (const num of arr) {
     if (counts[num]) {
-     counts[num]++;
-  } else {
-    counts[num] = 1;
+      counts[num]++;
+    } else {
+      counts[num] = 1;
+    }
   }
-}
 
   let highestCount = 0;
 
@@ -57,23 +58,21 @@ const getHighestDuplicates = (arr) => {
     const count = counts[num];
     if (count >= 3 && count > highestCount) {
       highestCount = count;
-    } 
-    
-     if (count >= 4 && count > highestCount) {
-       highestCount = count;
+    }
+    if (count >= 4 && count > highestCount) {
+      highestCount = count;
     }
   }
-  
+
   const sumOfAllDice = arr.reduce((a, b) => a + b, 0);
 
   if (highestCount >= 4) {
     updateRadioOption(1, sumOfAllDice);
-  } else if (highestCount >= 3) {
-    updateRadioOption(0, sumOfAllDice);
-  } else {
-    updateRadioOption(5, 0);
   }
-  
+  if (highestCount >= 3) {
+    updateRadioOption(0, sumOfAllDice);
+  }
+  updateRadioOption(5, 0);
 };
 
 rollDiceBtn.addEventListener("click", () => {
