@@ -41,6 +41,22 @@ const updateRadioOption = (index, score) => {
   scoreSpans[index].textContent = `, score = ${score}`;
 };
 
+const getHighestDuplicates = (numArr) => {
+  const counts = {};
+  numArr.forEach(value => counts[value] = (counts[value] || 0) + 1);
+
+  const sumDice = numArr.reduce((a, b) => a + b, 0);
+
+
+  for (const count in counts) {
+    if (counts[count] > 4) {
+       updateRadioOption(count , sumDice)
+    } else if (counts[count] > 3) {
+      updateRadioOption(count , sumDice)
+    }
+  }  
+};
+
 rollDiceBtn.addEventListener("click", () => {
   if (rolls === 3) {
     alert("You have made three rolls this round. Please select a score.");
@@ -48,6 +64,8 @@ rollDiceBtn.addEventListener("click", () => {
     rolls++;
     rollDice();
     updateStats();
+    getHighestDuplicates(diceValuesArr)
+    
   }
 });
 
