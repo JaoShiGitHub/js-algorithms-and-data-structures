@@ -42,8 +42,9 @@ const updateRadioOption = (index, score) => {
 };
 
 const updateScore = (selectedValue, achieved) => {
-  score += Number(selectedValue);
+  score += parseInt(selectedValue);
   totalScore.textContent = score;
+
   scoreHistory.innerHTML += `<li>${achieved} : ${selectedValue}</li>`;
 };
 
@@ -116,4 +117,15 @@ rulesBtn.addEventListener("click", () => {
     rulesBtn.textContent = "Show rules";
     rulesContainer.style.display = "none";
   }
+});
+
+keepScoreBtn.addEventListener("click", () => {
+    scoreInputs.forEach((radioOption) => {
+    if (radioOption.checked) {
+        updateScore(radioOption.value, radioOption.id);
+        resetRadioOptions(radioOption.id, radioOption.value);
+    } else {
+      alert("Please select an option");
+    }
+  })
 });
