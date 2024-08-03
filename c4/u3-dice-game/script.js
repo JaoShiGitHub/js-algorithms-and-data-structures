@@ -95,7 +95,19 @@ const resetRadioOptions = () => {
   });
 };
 
-
+const resetGame = () => {
+  listOfAllDice.forEach((die) => {
+    die.textContent = 0;
+    });
+    score = 0;
+    rolls = 0;
+    round = 1;
+    totalScore.textContent = score;
+    scoreHistory.textContent = "";
+    currentRoundRolls.textContent = rolls;
+    currentRound.textContent = round;
+  scoreInputs.forEach((input) => {input.checked = false});
+};
 
 rollDiceBtn.addEventListener("click", () => {
   if (rolls === 3) {
@@ -143,7 +155,7 @@ keepScoreBtn.addEventListener("click", () => {
       setTimeout(() => {
         alert(`Game Over! Your total score is ${score}`);
       }, 500);
-
+      resetGame();
     }
   } else {
     alert("Please select an option or roll the dice");
