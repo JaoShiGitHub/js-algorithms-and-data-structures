@@ -120,18 +120,25 @@ rulesBtn.addEventListener("click", () => {
 });
 
 keepScoreBtn.addEventListener("click", () => {
-    let selectedOption = null;
+  let selectedValue;
+  let achieved;
 
-    scoreInputs.forEach(radioOption => {
-      if (radioOption.checked) {
-        selectedOption = radioOption
-      }
-    });
-
-    if (selectedOption) {
-      updateScore(selectedOption.value, selectedOption.id);
-      resetRadioOptions();
-    } else {
-      alert("Please select an option");
+  for (const radioButton of scoreInputs) {
+    if (radioButton.checked) {
+      selectedValue = radioButton.value;
+      achieved = radioButton.id;
+      break;
     }
+  }
+
+  if (selectedValue) {
+    rolls = 0;
+    round++;
+    updateStats();
+    resetRadioOptions();
+    updateScore(selectedValue, achieved);
+    
+  } else {
+    alert("Please select an option or roll the dice");
+  }
 });
