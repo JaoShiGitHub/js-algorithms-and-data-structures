@@ -120,12 +120,18 @@ rulesBtn.addEventListener("click", () => {
 });
 
 keepScoreBtn.addEventListener("click", () => {
-    scoreInputs.forEach((radioOption) => {
-    if (radioOption.checked) {
-        updateScore(radioOption.value, radioOption.id);
-        resetRadioOptions(radioOption.id, radioOption.value);
+    let selectedOption = null;
+
+    scoreInputs.forEach(radioOption => {
+      if (radioOption.checked) {
+        selectedOption = radioOption
+      }
+    });
+
+    if (selectedOption) {
+      updateScore(selectedOption.value, selectedOption.id);
+      resetRadioOptions();
     } else {
       alert("Please select an option");
     }
-  })
 });
