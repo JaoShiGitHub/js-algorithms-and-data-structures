@@ -132,22 +132,18 @@ const resetGame = () => {
 };
 
 const checkForStraights = (arr) => {
-  const straight = []
+  const sortedNumbersArr = arr.sort((a,b) => a - b);  // check small straingts
+  const uniqueNumbersArr = [...new Set(sortedNumbersArr)];
+  const uniqueNumbersStr = uniqueNumbersArr.join("");
+  const smallStraightsArr = ["1234", "2345", "3456"];
+  const largeStraightsArr = ["12345", "23456"];
 
-  for (let i = 0; i < arr.length; i++) {
-    const nextArr = arr[i + 1];
-    const currentNum = arr[i];
-    if (currentNum < nextArr && nextArr - 1 === currentNum) {
-      straight.push(currentNum);
-    }
+  if (smallStraightsArr.some(straight =>  uniqueNumbersStr.includes(straight))) {
+    updateRadioOption(3, 30);
   }
 
-  if (straight.length === 5) {
-      updateRadioOption(3, 40);
-  }
-
-  if (straight.length === 4) {
-      updateRadioOption(4, 30);
+  if (largeStraightsArr.includes(uniqueNumbersStr)) {
+    updateRadioOption(4, 40);
   }
 
   updateRadioOption(5, 0);
