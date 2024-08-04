@@ -131,7 +131,27 @@ const resetGame = () => {
   resetRadioOptions();
 };
 
+const checkForStraights = (arr) => {
+  const straight = []
 
+  for (let i = 0; i < arr.length; i++) {
+    const nextArr = arr[i + 1];
+    const currentNum = arr[i];
+    if (currentNum < nextArr && nextArr - 1 === currentNum) {
+      straight.push(currentNum);
+    }
+  }
+
+  if (straight.length === 5) {
+      updateRadioOption(3, 40);
+  }
+
+  if (straight.length === 4) {
+      updateRadioOption(4, 30);
+  }
+
+  updateRadioOption(5, 0);
+};
 
 rollDiceBtn.addEventListener("click", () => {
   if (rolls === 3) {
@@ -143,7 +163,7 @@ rollDiceBtn.addEventListener("click", () => {
     updateStats();
     getHighestDuplicates(diceValuesArr);
     detectFullHouse(diceValuesArr);
-
+    checkForStraights(diceValuesArr);
   }
 });
 
