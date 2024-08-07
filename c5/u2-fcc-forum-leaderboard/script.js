@@ -32,6 +32,8 @@ const forumCategory = (id) => {
   const url = `${forumCategoryUrl}${selectedCategory.className}/${id}`;
   const linkText = selectedCategory.category; // display the name of the category in the anchor element
   const linkClass = `category ${selectedCategory.className}`; // These class names will be used to apply styles for the anchor element
+  
+  return `<a href="${url}" class="${linkClass}" target="_blank">${linkText}</a>`;
 };
 
 const timeAgo = (time) => {
@@ -66,6 +68,20 @@ const viewCount = (views) => {
   return views;
 };
 
+const avatars = (posters, users) => {
+    return posters.map((poster) => {
+    // find the correct user in the users array 
+    const user = users.find(user => user.id === poster.user_id);
+    if (user) {
+      const avatar = user.avatar_template.replace(/{size}/, 30);
+      const userAvatarUrl =  avatar.startsWith("/user_avatar/") 
+        ? avatarUrl.concat(avatar) 
+        : avatar;
+      return `<img src="${userAvatarUrl}" alt="${user.name}"/>`
+    }
+  });
+};
+
 const fetchData = async () => {
   try {
     const res = await fetch(forumLatest);
@@ -97,6 +113,7 @@ const showLatestPosts = (data) => {
     <tr>
       <td>
         <p class="post-title">${title}</p>
+        ${forumCategory(category_id)}
       </td>
       <td></td>
       <td>${posts_count - 1}</td>
