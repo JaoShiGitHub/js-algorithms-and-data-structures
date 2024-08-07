@@ -16,6 +16,24 @@ const allCategories = {
   560: { category: "Backend Development", className: "backend" },
 };
 
+const forumCategory = (id) => {
+  let selectedCategory = {}; // Store the category name and class name for each category.
+  
+  if (allCategories.hasOwnProperty(id)) {
+    const {className, category} = allCategories[id];
+    
+    selectedCategory.className =  className;
+    selectedCategory.category = category;
+  } else {
+    selectedCategory.className = "general";
+    selectedCategory.category = "General";
+    selectedCategory.id = 1;
+  }
+  const url = `${forumCategoryUrl}${selectedCategory.className}/${id}`;
+  const linkText = selectedCategory.category; // display the name of the category in the anchor element
+  const linkClass = `category ${selectedCategory.className}`; // These class names will be used to apply styles for the anchor element
+};
+
 const timeAgo = (time) => {
   const currentTime = new Date();
   const lastPost = new Date(time);
@@ -71,8 +89,7 @@ const showLatestPosts = (data) => {
       views,
       posts_count,
       slug,
-      posters,
-      category_id,
+      posters,_id,
       bumped_at,
     } = item;
 
@@ -88,3 +105,4 @@ const showLatestPosts = (data) => {
     </tr>`;
   }).join("");
 };
+
