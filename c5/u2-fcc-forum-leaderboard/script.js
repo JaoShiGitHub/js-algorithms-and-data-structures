@@ -18,11 +18,11 @@ const allCategories = {
 
 const forumCategory = (id) => {
   let selectedCategory = {}; // Store the category name and class name for each category.
-  
+
   if (allCategories.hasOwnProperty(id)) {
-    const {className, category} = allCategories[id];
-    
-    selectedCategory.className =  className;
+    const { className, category } = allCategories[id];
+
+    selectedCategory.className = className;
     selectedCategory.category = category;
   } else {
     selectedCategory.className = "general";
@@ -30,13 +30,13 @@ const forumCategory = (id) => {
     selectedCategory.id = 1;
   }
   const url = `${forumCategoryUrl}${selectedCategory.className}/${id}`;
-  const linkText = selectedCategory.category; // display the name of the category in the anchor element
-  const linkClass = `category ${selectedCategory.className}`; // These class names will be used to apply styles for the anchor element
-  
+  const linkText = selectedCategory.category;  // display the name of the category in the anchor element
+  const linkClass = `category ${selectedCategory.className}`;  // These class names will be used to apply styles for the anchor element
+
   return `<a href="${url}" class="${linkClass}" target="_blank">${linkText}</a>`;
 };
 
-const timeAgo = (time) => {
+const timeAgo = time => {
   const currentTime = new Date();
   const lastPost = new Date(time);
 
@@ -69,17 +69,18 @@ const viewCount = (views) => {
 };
 
 const avatars = (posters, users) => {
-    return posters.map((poster) => {
-    // find the correct user in the users array 
-    const user = users.find(user => user.id === poster.user_id);
-    if (user) {
-      const avatar = user.avatar_template.replace(/{size}/, 30);
-      const userAvatarUrl =  avatar.startsWith("/user_avatar/") 
-        ? avatarUrl.concat(avatar) 
-        : avatar;
-      return `<img src="${userAvatarUrl}" alt="${user.name}"/>`
-    }
-  }).join("");
+  return posters
+    .map((poster) => {
+      // find the correct user in the users array 
+      const user = users.find((user) => user.id === poster.user_id);
+      if (user) {
+        const avatar = user.avatar_template.replace(/{size}/, 30);
+        const userAvatarUrl = avatar.startsWith("/user_avatar/")
+          ? avatarUrl.concat(avatar)
+          : avatar;
+        return `<img src="${userAvatarUrl}" alt="${user.name}" />`;
+      }
+   }).join("");
 };
 
 const fetchData = async () => {
@@ -105,7 +106,8 @@ const showLatestPosts = (data) => {
       views,
       posts_count,
       slug,
-      posters,_id,
+      posters,
+      category_id,
       bumped_at,
     } = item;
 
@@ -116,7 +118,7 @@ const showLatestPosts = (data) => {
         ${forumCategory(category_id)}
       </td>
       <td>
-      <div class="avatar-container">${avatars(posters, users)}</div>
+        <div class="avatar-container">${avatars(posters, users)}</div>
       </td>
       <td>${posts_count - 1}</td>
       <td>${viewCount(views)}</td>
@@ -124,4 +126,3 @@ const showLatestPosts = (data) => {
     </tr>`;
   }).join("");
 };
-
