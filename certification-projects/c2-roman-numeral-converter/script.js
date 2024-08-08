@@ -21,17 +21,27 @@ let romanNumerals = {
 const convertNumber = () => {
   const input = number.value;
   const numberInput = parseInt(input);
+  const splitNums = input.split("");
+  const splitNumsLength = splitNums.length
+  
   let numbersConverted = [];
 
   if (!input) {
     output.textContent = "Please enter a valid number";
-  }
-
-  if (numberInput <= 0) {
+  } else if (numberInput <= 0) {
     output.textContent = "Please enter a number greater than or equal to 1";
-  } else if (numberInput <= 4000 || numberInput > 4000) {
+  } else if (numberInput === 4000 || numberInput > 4000) {
     output.textContent = "Please enter a number less than or equal to 3999";
+  } else {
+  if (splitNumsLength === 1) {
+    if (numberInput < 4) {
+      for (let i = 0; i < numberInput; i++) {
+        numbersConverted.push("I");
+      }
+    } 
+    output.textContent = numbersConverted.join("");
   }
+ }
 };
 
 convertBtn.addEventListener("click", convertNumber);
