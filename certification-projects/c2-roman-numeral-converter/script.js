@@ -2,6 +2,8 @@ const convertBtn = document.getElementById("convert-btn");
 const output = document.getElementById("output");
 const number = document.getElementById("number");
 
+let numbersConverted = [];
+
 let romanNumerals = {
   1: "M",
   4: "IV",
@@ -18,13 +20,30 @@ let romanNumerals = {
   1000: "M",
 };
 
+const oneNumber = (num) => {
+  if (num < 4) {
+    for (let i = 0; i < num; i++) {
+      numbersConverted.push("I");
+    }
+  } else if (num === 4) {
+    numbersConverted.push(romanNumerals["4"]);
+  } else if (num === 5) {
+    numbersConverted.push(romanNumerals["5"]);
+  } else if (num > 5 && num < 9) {
+      numbersConverted.push("V");
+      for (let i = 0; i < num - 5; i++) {
+      numbersConverted.push("I");
+    }
+  } else if (num === 9) {
+      numbersConverted.push(romanNumerals["9"]);
+  }
+};
+
 const convertNumber = () => {
   const input = number.value;
   const numberInput = parseInt(input);
   const splitNums = input.split("");
-  const splitNumsLength = splitNums.length
-  
-  let numbersConverted = [];
+  const splitNumsLength = splitNums.length;
 
   if (!input) {
     output.textContent = "Please enter a valid number";
@@ -33,15 +52,12 @@ const convertNumber = () => {
   } else if (numberInput === 4000 || numberInput > 4000) {
     output.textContent = "Please enter a number less than or equal to 3999";
   } else {
-  if (splitNumsLength === 1) {
-    if (numberInput < 4) {
-      for (let i = 0; i < numberInput; i++) {
-        numbersConverted.push("I");
-      }
-    } 
-    output.textContent = numbersConverted.join("");
+    if (splitNumsLength === 1) {
+      oneNumber(numberInput);
+    }
   }
- }
+  output.textContent = numbersConverted.join("");
+  numbersConverted = [];
 };
 
 convertBtn.addEventListener("click", convertNumber);
