@@ -5,7 +5,7 @@ const result = document.getElementById("results-div");
 
 const input = userInput.value;
 
-const onClickCheckBtn = () => {
+const handleClickCheck = () => {
   if (!input) {
     alert("Please provide a phone number");
     console.log(input);
@@ -14,4 +14,9 @@ const onClickCheckBtn = () => {
   }
 };
 
-checkBtn.addEventListener("click", () => onClickCheckBtn);
+const handleClear = () => {
+  result.textContent = "";
+};
+
+checkBtn.addEventListener("click", handleClickCheck);
+clearBtn.addEventListener("click", handleClear);
