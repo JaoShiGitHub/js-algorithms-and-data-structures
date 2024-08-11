@@ -54,3 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+// Line 39
+// The Number function can be passed as an argument to .map() directly without any additional wrapping, 
+// which is a shorthand and commonly used in JavaScript. 
+// However, when you want to use a more explicit approach, 
+// you can use an arrow function like map(num => Number(num)). Both achieve the same result.
