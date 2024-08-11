@@ -7,10 +7,9 @@ const invalidText = "Invalid US number:";
 const validText = "Valid US number:";
 
 const handleCheckPhoneNumber = (phoneNumber) => {
-  const number = phoneNumber.replace(/[-\s]+/g, "");
-  const numLength = number.length;
+  const regex = /^(1\s?)?(?:\(\d{3}\)|\d{3})[\s\-]?\d{3}[\s\-]?\d{4}$/;
 
-  if (numLength === 10 || (numLength === 11 && number.startsWith("1"))) {
+  if (regex.test(phoneNumber)) {
     result.textContent = `${validText} ${phoneNumber}`;
   } else {
     result.textContent = `${invalidText} ${phoneNumber}`;
@@ -25,7 +24,6 @@ const handleClickCheck = () => {
     console.log(input);
   } else {
     userInput.value = "";
-    alert("welcome to Telephone Number Validator");
     handleCheckPhoneNumber(input);
   }
 };
