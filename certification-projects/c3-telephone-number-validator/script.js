@@ -34,5 +34,5 @@ const handleClear = () => {
   result.textContent = "";
 };
 
-checkBtn.addEventListener("click", () => handleClickCheck);
+checkBtn.addEventListener("click", handleClickCheck);
 clearBtn.addEventListener("click", handleClear);
