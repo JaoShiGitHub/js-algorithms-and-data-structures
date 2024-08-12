@@ -15,6 +15,12 @@ let cid = [
   ["ONE HUNDRED", 100],
 ];
 
+function randomPrice() {
+  return Math.random() < 0.5
+    ? Math.floor(Math.random() * 100)
+    : (Math.random() * 100).toFixed(2);
+}
+
 const handleCheckCash = () => {
   const cash = Number(cashInputValue.value);
 
