@@ -1,8 +1,11 @@
 const cashInputValue = document.getElementById("cash");
 const changeDue = document.getElementById("change-due");
 const purchaseBtn = document.getElementById("purchase-btn");
+const showPrice = document.getElementById("price");
 
 let price = 1.87;
+
+// cash-in-drawer
 let cid = [
   ["PENNY", 1.01],
   ["NICKEL", 2.05],
@@ -16,10 +19,17 @@ let cid = [
 ];
 
 function randomPrice() {
-  return Math.random() < 0.5
-    ? Math.floor(Math.random() * 100)
-    : (Math.random() * 100).toFixed(2);
+  price =
+    Math.random() < 0.5
+      ? Math.floor(Math.random() * 100)
+      : (Math.random() * 100).toFixed(2);
+  showPrice.textContent = price;
 }
+
+const total = cid.reduce((acc, currentElem) => {
+  const currPrice = currentElem[1];
+  return acc + currPrice;
+}, 0);
 
 const handleCheckCash = () => {
   const cash = Number(cashInputValue.value);
@@ -27,8 +37,21 @@ const handleCheckCash = () => {
   if (cash < price) {
     alert("Customer does not have enough money to purchase the item");
   } else if (cash === price) {
-    alert("No change due - customer paid with exact cash");
+    changeDue.textContent = "No change due - customer paid with exact cash";
+  } else if (cash > price || total === cash - price) {
+    changeDue.textContent = "Status: CLOSED";
   }
+
+  cashInputValue.value = "";
+  console.log(price);
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
+
+cashInputValue.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleCheckCash();
+  }
+});
+
+randomPrice();
