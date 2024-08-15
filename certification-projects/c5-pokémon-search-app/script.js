@@ -13,18 +13,18 @@ const specialDefense = document.getElementById("special-defense");
 const speed = document.getElementById("speed");
 
 const getData = async () => {
-  console.log("Fetching data...");
-  const pokemonNameOrID = searchInput.value.toLowerCase();
   try {
     const response = await fetch(
-      `https://pokeapi-proxy.freecodecamp.rocks/api/pokemon`
+      `https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/1`
     );
-    const data = await response.json();
-    console.log("Data fetched:", data);
-  } catch (err) {
-    console.log(err);
-    console.log(pokemonNameOrID, "error");
+    // Solving the problem of not being able to get the pokemon data by using .text()
+    const text = await response.text();
+    // Attempt to parse the JSON only if the response is JSON
+    const data = JSON.parse(text);
+    console.log("Parsed Data:", data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
 };
 
-searchInput.addEventListener("click", getData);
+searchBtn.addEventListener("click", getData);
