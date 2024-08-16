@@ -12,9 +12,12 @@ const specialAttack = document.getElementById("special-attack");
 const specialDefense = document.getElementById("special-defense");
 const speed = document.getElementById("speed");
 
+let isLoading = false;
+
 const getData = async () => {
-  const pokemonNameOrID = searchInput.value.toLowerCase();
   let pokemonData = [];
+  const pokemonNameOrID = searchInput.value.toLowerCase();
+  clearData();
   try {
     const response = await fetch(
       `https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${pokemonNameOrID}`
@@ -24,6 +27,7 @@ const getData = async () => {
     // Attempt to parse the JSON only if the response is JSON
     pokemonData = JSON.parse(text);
   } catch (error) {
+    clearData();
     console.error("Error fetching data:", error);
     alert("Pokémon not found");
   }
@@ -31,10 +35,32 @@ const getData = async () => {
   pokemonName.textContent += pokemonData.name;
   pokemonID.textContent += pokemonData.id;
   weight.textContent += pokemonData.weight;
-  height.textContent += pokemonData;
-  types.innerHTML += `<div>${pokemonData.types[0]?.type?.name}</div>`; // back to loop data
-
+  height.textContent += pokemonData.height;
+  types.innerHTML += pokemonData.types
+    .map(
+      (type) =>
+        `<span class="pokemon-type ${
+          type.type?.name
+        }">${type.type?.name.toUpperCase()}</span>`
+    )
+    .join("");
   console.log(pokemonData);
+  console.log(pkmTypes);
+};
+
+const clearData = () => {
+  searchInput.value = "";
+  pokemonName.textContent = "";
+  pokemonID.textContent = "";
+  weight.textContent = "";
+  height.textContent = "";
+  types.textContent = "";
+  hp.textContent = "";
+  attack.textContent = "";
+  defense.textContent = "";
+  specialAttack.textContent = "";
+  specialDefense.textContent = "";
+  speed.textContent = "";
 };
 
 searchBtn.addEventListener("click", getData);
