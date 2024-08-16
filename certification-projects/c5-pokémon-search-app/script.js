@@ -44,8 +44,13 @@ const getData = async () => {
         }">${type.type?.name.toUpperCase()}</span>`
     )
     .join("");
+  hp.textContent += pokemonData.stats[0]?.base_stat;
+  attack.textContent += pokemonData.stats[1]?.base_stat;
+  defense.textContent += pokemonData.stats[2]?.base_stat;
+  specialAttack.textContent += pokemonData.stats[3]?.base_stat;
+  specialDefense.textContent += pokemonData.stats[4]?.base_stat;
+  speed.textContent += pokemonData.stats[5]?.base_stat;
   console.log(pokemonData);
-  console.log(pkmTypes);
 };
 
 const clearData = () => {
