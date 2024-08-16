@@ -11,8 +11,7 @@ const defense = document.getElementById("defense");
 const specialAttack = document.getElementById("special-attack");
 const specialDefense = document.getElementById("special-defense");
 const speed = document.getElementById("speed");
-
-let isLoading = false;
+const div = document.getElementById("container");
 
 const getData = async () => {
   let pokemonData = [];
@@ -28,14 +27,14 @@ const getData = async () => {
     pokemonData = JSON.parse(text);
   } catch (error) {
     clearData();
-    console.error("Error fetching data:", error);
     alert("Pokémon not found");
+    console.error("Error fetching data:", error);
   }
 
   pokemonName.textContent += pokemonData.name;
-  pokemonID.textContent += pokemonData.id;
-  weight.textContent += pokemonData.weight;
-  height.textContent += pokemonData.height;
+  pokemonID.textContent += `#${pokemonData.id}`;
+  weight.textContent += `Weight: ${pokemonData.weight}`;
+  height.textContent += `Height: ${pokemonData.height}`;
   types.innerHTML += pokemonData.types
     .map(
       (type) =>
@@ -50,6 +49,7 @@ const getData = async () => {
   specialAttack.textContent += pokemonData.stats[3]?.base_stat;
   specialDefense.textContent += pokemonData.stats[4]?.base_stat;
   speed.textContent += pokemonData.stats[5]?.base_stat;
+  div.innerHTML += `<img id="sprite" alt="${pokemonData.name}" src="${pokemonData.sprites?.front_default}"/>`;
   console.log(pokemonData);
 };
 
@@ -66,6 +66,9 @@ const clearData = () => {
   specialAttack.textContent = "";
   specialDefense.textContent = "";
   speed.textContent = "";
+
+  const sprite = document.getElementById("sprite");
+  if (sprite) sprite.remove();
 };
 
 searchBtn.addEventListener("click", getData);
