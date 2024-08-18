@@ -14,6 +14,8 @@ const speed = document.getElementById("speed");
 const div = document.getElementById("container");
 
 const getData = async () => {
+  console.log("get data");
+
   let pokemonData = [];
   const pokemonNameOrID = searchInput.value.toLowerCase();
   clearData();
@@ -49,7 +51,10 @@ const getData = async () => {
   specialAttack.textContent += pokemonData.stats[3]?.base_stat;
   specialDefense.textContent += pokemonData.stats[4]?.base_stat;
   speed.textContent += pokemonData.stats[5]?.base_stat;
-  div.innerHTML += `<img id="sprite" alt="${pokemonData.name}" src="${pokemonData.sprites?.front_default}"/>`;
+  div.insertAdjacentHTML(
+    "beforeend",
+    `<img id="sprite" alt="${pokemonData.name}" src="${pokemonData.sprites?.front_default}"/>`
+  );
   console.log(pokemonData);
 };
 
@@ -67,8 +72,8 @@ const clearData = () => {
   specialDefense.textContent = "";
   speed.textContent = "";
 
-  const sprite = document.getElementById("sprite");
-  if (sprite) sprite.remove();
+  const spriteImg = document.getElementById("sprite");
+  if (spriteImg) spriteImg.remove();
 };
 
 searchBtn.addEventListener("click", getData);
