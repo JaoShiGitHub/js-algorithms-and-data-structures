@@ -1,9 +1,10 @@
 const cashInputValue = document.getElementById("cash");
-const changeDue = document.getElementById("change-due");
+const displayChangeDue = document.getElementById("change-due");
 const purchaseBtn = document.getElementById("purchase-btn");
 const showPrice = document.getElementById("price");
 
-let price = 1.87;
+const price = 1.87;
+showPrice.textContent = price;
 
 // cash-in-drawer
 let cid = [
@@ -18,32 +19,40 @@ let cid = [
   ["ONE HUNDRED", 100],
 ];
 
-function randomPrice() {
-  price =
-    Math.random() < 0.5
-      ? Math.floor(Math.random() * 100)
-      : (Math.random() * 100).toFixed(2);
-  showPrice.textContent = price;
-}
-
-const total = cid.reduce((acc, currentElem) => {
-  const currPrice = currentElem[1];
-  return acc + currPrice;
-}, 0);
+const cidTotal = cid
+  .reduce((acc, currentElem) => {
+    const currPrice = currentElem[1];
+    return acc + currPrice;
+  }, 0)
+  .toFixed(2);
 
 const handleCheckCash = () => {
   const cash = Number(cashInputValue.value);
+  const changeDue = cash - price;
+  let cidStatus = { status: "OPEN", change: [] };
+  cashInputValue.value = "";
 
+  // Customer doesn't have enough money
   if (cash < price) {
     alert("Customer does not have enough money to purchase the item");
-  } else if (cash === price) {
-    changeDue.textContent = "No change due - customer paid with exact cash";
-  } else if (cash > price || total === cash - price) {
-    changeDue.textContent = "Status: CLOSED";
+    displayChangeDue.textContent = "Status: INSUFFICIENT_FUNDS";
+    return;
+  }
+  // Customer paid with exact cash
+  if (cash === price) {
+    displayChangeDue.textContent =
+      "No change due - customer paid with exact cash";
+    return;
   }
 
-  cashInputValue.value = "";
-  console.log(price);
+  if (cidTotal === changeDue) {
+    displayChangeDue.textContent = "Status: CLOSED";
+    return;
+  } else {
+    displayChangeDue.textContent = "Happy";
+  }
+
+  console.log("cid", cidTotal);
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
@@ -53,5 +62,3 @@ cashInputValue.addEventListener("keydown", (e) => {
     handleCheckCash();
   }
 });
-
-randomPrice();
