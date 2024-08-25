@@ -30,26 +30,34 @@ const handleCheckCash = () => {
   const cash = Number(cashInputValue.value);
   const changeDue = cash - price;
   let cidStatus = { status: "OPEN", change: [] };
+  let reversedCid = [...cid].reverse();
+  let denominations = [100, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
   cashInputValue.value = "";
 
   // Customer doesn't have enough money
   if (cash < price) {
     alert("Customer does not have enough money to purchase the item");
-    displayChangeDue.textContent = "Status: INSUFFICIENT_FUNDS";
-    return;
+    cidStatus.status = "INSUFFICIENT_FUNDS";
+    return (displayChangeDue.textContent = `Status: ${cidStatus.status}`);
   }
   // Customer paid with exact cash
   if (cash === price) {
-    displayChangeDue.textContent =
-      "No change due - customer paid with exact cash";
-    return;
+    return (displayChangeDue.textContent =
+      "No change due - customer paid with exact cash");
   }
 
   if (cidTotal === changeDue) {
-    displayChangeDue.textContent = "Status: CLOSED";
-    return;
-  } else {
-    displayChangeDue.textContent = "Happy";
+    cidStatus.status = "CLOSED";
+  }
+
+  for (let i = 0; i < reversedCid.length; i++) {
+    if (changeDue > 0 && changeDue >= denominations[i]) {
+      let cidTotal = reversedCid[i][1];
+      for (let j = 0; cidTotal > 0 && changeDue >= denominations[i]; j++) {
+        cidTotal -= denominations[i];
+        changeDue = (changeDue -= denominations[i]).toFixed(2);
+      }
+    }
   }
 
   console.log("cid", cidTotal);
