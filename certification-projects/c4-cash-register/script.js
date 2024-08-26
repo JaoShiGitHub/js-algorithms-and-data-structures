@@ -3,7 +3,7 @@ const displayChangeDue = document.getElementById("change-due");
 const purchaseBtn = document.getElementById("purchase-btn");
 const showPrice = document.getElementById("price");
 
-const price = 1.87;
+const price = 3.26;
 showPrice.textContent = price;
 
 // cash-in-drawer
@@ -72,6 +72,12 @@ const handleCheckCash = () => {
 
   console.log("Status: ", cidStatus.status);
   console.log("Change: ", cidStatus.change);
+
+  displayChangeDue.innerHTML = `<p>Status: ${cidStatus.status}</p>`;
+  cidStatus.change.map(
+    (money) =>
+      (displayChangeDue.innerHTML += `<p>${money[0]}: $${money[1]}</p>`)
+  );
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
