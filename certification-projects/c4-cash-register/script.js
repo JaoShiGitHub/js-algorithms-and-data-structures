@@ -33,13 +33,12 @@ const handleCheckCash = () => {
   let denominations = [100, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
   cashInputValue.value = "";
 
-  // Customer doesn't have enough money
   if (cash < price) {
     alert("Customer does not have enough money to purchase the item");
     cidStatus.status = "INSUFFICIENT_FUNDS";
     return (displayChangeDue.textContent = `Status: ${cidStatus.status}`);
   }
-  // Customer paid with exact cash
+
   if (cash === price) {
     return (displayChangeDue.textContent =
       "No change due - customer paid with exact cash");
@@ -52,16 +51,13 @@ const handleCheckCash = () => {
   }
 
   for (let i = 0; i < reversedCid.length; i++) {
-    // if there's change left and the change is greater than 0 -> keep calculating
     if (changeDue >= denominations[i] && changeDue > 0) {
       let count = 0;
-      let total = reversedCid[i][1]; // Get the cash in drawer
+      let total = reversedCid[i][1];
       while (total > 0 && changeDue >= denominations[i]) {
-        // if there's cash to give && change due is >= the denomination keep updating
         total -= denominations[i];
         changeDue = parseFloat((changeDue -= denominations[i]).toFixed(2));
         console.log("changeDue: ", changeDue, "denomination: ", reversedCid[i]);
-
         count++;
       }
       if (count > 0) {
@@ -74,11 +70,17 @@ const handleCheckCash = () => {
     return (displayChangeDue.textContent = `Status: INSUFFICIENT_FUNDS`);
   }
 
-  displayChangeDue.innerHTML += `<p>Status: ${
-    cidStatus.status
-  } ${cidStatus.change
-    .map((money) => `${money[0]}: $${money[1]}`)
-    .join(" ")} </p>`;
+  // displayChangeDue.innerHTML += `<p>Status: ${
+  //   cidStatus.status
+  // } ${cidStatus.change
+  //   .map((money) => `${money[0]}: $${money[1]}`)
+  //   .join(" ")} </p>`;
+
+  displayChangeDue.innerHTML += `<p>Status: ${cidStatus.status}</p>`;
+  displayChangeDue.innerHTML += cidStatus.change
+    .map((money) => `<p>${money[0]}: $${money[1]}</p>`)
+    .join("");
+
   console.log(cidStatus.change);
 };
 
