@@ -51,16 +51,23 @@ const handleCheckCash = () => {
   }
 
   for (let i = 0; i < reversedCid.length; i++) {
-    if (changeDue > 0 && changeDue >= denominations[i]) {
-      let cidTotal = reversedCid[i][1];
-      for (let j = 0; cidTotal > 0 && changeDue >= denominations[i]; j++) {
-        cidTotal -= denominations[i];
-        changeDue = (changeDue -= denominations[i]).toFixed(2);
+    if (changeDue >= denominations[i] && changeDue > 0) {
+      let count = 0;
+      let total = reversedCid[i][1];
+      while (total > 0 && changeDue >= denominations[i]) {
+        total -= denominations[i];
+        changeDue -= denominations[i];
+        count++;
+      }
+      if (count > 0) {
+        cidStatus.change.push([reversedCid[i][0], count * denominations[i]]);
       }
     }
   }
 
-  console.log("cid", cidTotal);
+  if (changeDue > 0) {
+    return (displayChangeDue.textContent = "<p>Status: INSUFFICIENT_FUNDS</p>");
+  }
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
