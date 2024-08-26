@@ -3,10 +3,35 @@ const displayChangeDue = document.getElementById("change-due");
 const purchaseBtn = document.getElementById("purchase-btn");
 const showPrice = document.getElementById("price");
 
-const price = 3.26;
+const price = 19.5;
+// const price = 1.87;
 showPrice.textContent = price;
 
 // cash-in-drawer
+// let cid = [
+//   ["PENNY", 1.01],
+//   ["NICKEL", 2.05],
+//   ["DIME", 3.1],
+//   ["QUARTER", 4.25],
+//   ["ONE", 90],
+//   ["FIVE", 55],
+//   ["TEN", 20],
+//   ["TWENTY", 60],
+//   ["ONE HUNDRED", 100],
+// ];
+
+// let cid = [
+//   ["PENNY", 0.5],
+//   ["NICKEL", 0],
+//   ["DIME", 0],
+//   ["QUARTER", 0],
+//   ["ONE", 0],
+//   ["FIVE", 0],
+//   ["TEN", 0],
+//   ["TWENTY", 0],
+//   ["ONE HUNDRED", 0],
+// ];
+
 let cid = [
   ["PENNY", 1.01],
   ["NICKEL", 2.05],
@@ -28,7 +53,7 @@ const cidTotal = cid
 
 const handleCheckCash = () => {
   const cash = Number(cashInputValue.value);
-  let changeDue = cash - price;
+  let changeDue = (cash - price).toFixed(2);
   let cidStatus = { status: "OPEN", change: [] };
   let reversedCid = [...cid].reverse();
   let denominations = [100, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
@@ -45,20 +70,25 @@ const handleCheckCash = () => {
     return (displayChangeDue.textContent =
       "No change due - customer paid with exact cash");
   }
+  console.log("cidTotal: ", cidTotal);
+  console.log("changeDue: ", changeDue);
 
   if (cidTotal === changeDue) {
     cidStatus.status = "CLOSED";
   }
 
   for (let i = 0; i < reversedCid.length; i++) {
+    // if there's change left and the change is greater than 0 -> keep calculating
     if (changeDue >= denominations[i] && changeDue > 0) {
       let count = 0;
-      let total = reversedCid[i][1];
+      let total = reversedCid[i][1]; // Get the cash in drawer
       while (total > 0 && changeDue >= denominations[i]) {
+        // if there's cash to give && change due is >= the denomination keep updating
         total -= denominations[i];
         changeDue = parseFloat((changeDue -= denominations[i]).toFixed(2));
+        console.log("changeDue: ", changeDue, "denomination: ", reversedCid[i]);
+
         count++;
-        console.log(changeDue);
       }
       if (count > 0) {
         cidStatus.change.push([reversedCid[i][0], count * denominations[i]]);
@@ -70,14 +100,13 @@ const handleCheckCash = () => {
     return (displayChangeDue.textContent = `Status: INSUFFICIENT_FUNDS`);
   }
 
-  console.log("Status: ", cidStatus.status);
-  console.log("Change: ", cidStatus.change);
-
-  displayChangeDue.innerHTML = `<p>Status: ${cidStatus.status}</p>`;
+  // display result
   cidStatus.change.map(
     (money) =>
-      (displayChangeDue.innerHTML += `<p>${money[0]}: $${money[1]}</p>`)
+      (displayChangeDue.innerHTML += `<p>Status: ${cidStatus.status} ${money[0]}: $${money[1]}</p>`)
   );
+
+  console.log(cidStatus.change);
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
