@@ -4,33 +4,7 @@ const purchaseBtn = document.getElementById("purchase-btn");
 const showPrice = document.getElementById("price");
 
 const price = 19.5;
-// const price = 1.87;
 showPrice.textContent = price;
-
-// cash-in-drawer
-// let cid = [
-//   ["PENNY", 1.01],
-//   ["NICKEL", 2.05],
-//   ["DIME", 3.1],
-//   ["QUARTER", 4.25],
-//   ["ONE", 90],
-//   ["FIVE", 55],
-//   ["TEN", 20],
-//   ["TWENTY", 60],
-//   ["ONE HUNDRED", 100],
-// ];
-
-// let cid = [
-//   ["PENNY", 0.5],
-//   ["NICKEL", 0],
-//   ["DIME", 0],
-//   ["QUARTER", 0],
-//   ["ONE", 0],
-//   ["FIVE", 0],
-//   ["TEN", 0],
-//   ["TWENTY", 0],
-//   ["ONE HUNDRED", 0],
-// ];
 
 let cid = [
   ["PENNY", 1.01],
@@ -73,7 +47,7 @@ const handleCheckCash = () => {
   console.log("cidTotal: ", cidTotal);
   console.log("changeDue: ", changeDue);
 
-  if (cidTotal === changeDue) {
+  if (cidTotal === changeDue || (price < cash && cidTotal === changeDue)) {
     cidStatus.status = "CLOSED";
   }
 
@@ -100,12 +74,11 @@ const handleCheckCash = () => {
     return (displayChangeDue.textContent = `Status: INSUFFICIENT_FUNDS`);
   }
 
-  // display result
-  cidStatus.change.map(
-    (money) =>
-      (displayChangeDue.innerHTML += `<p>Status: ${cidStatus.status} ${money[0]}: $${money[1]}</p>`)
-  );
-
+  displayChangeDue.innerHTML += `<p>Status: ${
+    cidStatus.status
+  } ${cidStatus.change
+    .map((money) => `${money[0]}: $${money[1]}`)
+    .join(" ")} </p>`;
   console.log(cidStatus.change);
 };
 
