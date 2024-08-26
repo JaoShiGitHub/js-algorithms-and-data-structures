@@ -28,7 +28,7 @@ const cidTotal = cid
 
 const handleCheckCash = () => {
   const cash = Number(cashInputValue.value);
-  const changeDue = cash - price;
+  let changeDue = cash - price;
   let cidStatus = { status: "OPEN", change: [] };
   let reversedCid = [...cid].reverse();
   let denominations = [100, 20, 10, 5, 1, 0.25, 0.1, 0.05, 0.01];
@@ -56,8 +56,9 @@ const handleCheckCash = () => {
       let total = reversedCid[i][1];
       while (total > 0 && changeDue >= denominations[i]) {
         total -= denominations[i];
-        changeDue -= denominations[i];
+        changeDue = parseFloat((changeDue -= denominations[i]).toFixed(2));
         count++;
+        console.log(changeDue);
       }
       if (count > 0) {
         cidStatus.change.push([reversedCid[i][0], count * denominations[i]]);
@@ -66,8 +67,11 @@ const handleCheckCash = () => {
   }
 
   if (changeDue > 0) {
-    return (displayChangeDue.textContent = "<p>Status: INSUFFICIENT_FUNDS</p>");
+    return (displayChangeDue.textContent = `Status: INSUFFICIENT_FUNDS`);
   }
+
+  console.log("Status: ", cidStatus.status);
+  console.log("Change: ", cidStatus.change);
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
