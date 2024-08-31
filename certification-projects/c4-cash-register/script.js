@@ -6,16 +6,28 @@ const showPrice = document.getElementById("price");
 const price = 19.5;
 showPrice.textContent = price;
 
+// let cid = [
+//   ["PENNY", 1.01],
+//   ["NICKEL", 2.05],
+//   ["DIME", 3.1],
+//   ["QUARTER", 4.25],
+//   ["ONE", 90],
+//   ["FIVE", 55],
+//   ["TEN", 20],
+//   ["TWENTY", 60],
+//   ["ONE HUNDRED", 100],
+// ];
+
 let cid = [
-  ["PENNY", 1.01],
-  ["NICKEL", 2.05],
-  ["DIME", 3.1],
-  ["QUARTER", 4.25],
-  ["ONE", 90],
-  ["FIVE", 55],
-  ["TEN", 20],
-  ["TWENTY", 60],
-  ["ONE HUNDRED", 100],
+  ["PENNY", 0.5],
+  ["NICKEL", 0],
+  ["DIME", 0],
+  ["QUARTER", 0],
+  ["ONE", 0],
+  ["FIVE", 0],
+  ["TEN", 0],
+  ["TWENTY", 0],
+  ["ONE HUNDRED", 0],
 ];
 
 const cidTotal = cid
@@ -69,19 +81,22 @@ const handleCheckCash = () => {
   if (changeDue > 0) {
     return (displayChangeDue.textContent = `Status: INSUFFICIENT_FUNDS`);
   }
+  console.log("length:", displayChangeDue.children.length);
+  console.log("check change:", cidStatus.change);
+  console.log("check change 0:", cidStatus.change[0]);
+  console.log("check change 1:", cidStatus.change[1]);
 
-  // displayChangeDue.innerHTML += `<p>Status: ${
-  //   cidStatus.status
-  // } ${cidStatus.change
-  //   .map((money) => `${money[0]}: $${money[1]}`)
-  //   .join(" ")} </p>`;
+  if (cidStatus.change.length === 1) {
+    displayChangeDue.innerHTML += `<p>Status: ${cidStatus.status} ${cidStatus.change[0][0]}: $${cidStatus.change[0][1]}</p>`;
+  } else {
+    displayChangeDue.innerHTML += `<p>Status: ${cidStatus.status}</p>`;
+    displayChangeDue.innerHTML += cidStatus.change
+      .map((money) => `<p>${money[0]}: $${money[1]}</p>`)
+      .join("");
+  }
 
-  displayChangeDue.innerHTML += `<p>Status: ${cidStatus.status}</p>`;
-  displayChangeDue.innerHTML += cidStatus.change
-    .map((money) => `<p>${money[0]}: $${money[1]}</p>`)
-    .join("");
-
-  console.log(cidStatus.change);
+  console.log("New check length:", displayChangeDue.children.length);
+  return;
 };
 
 purchaseBtn.addEventListener("click", handleCheckCash);
